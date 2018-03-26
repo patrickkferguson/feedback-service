@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Feedback Widget test page</title>
+<script src="feedback-widget.v1.js"></script>
+<script>
+    function uuidv4() {
+        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        )
+    }
+    const aaa_feedback_pageId = uuidv4();
+</script>
+<script>
+    function clearCookies() {
+        document.cookie = 'aaa-feedback-device-id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = 'aaa-feedback-timestamp=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+</script>
+<style>
+    .body, h4, p, div {
+        font-family: sans-serif;
+    }
+    pre {
+        background-color: lightgray;
+        border-color: darkgrey;
+    }
+</style>
+</head>
+<body>
+    <h4>Usage</h4>
+    <p>
+        Include the widget script by adding the following HTML to your web page source (usually inside the head tag):
+        <pre>
+
+    &lt;script src="feedback-widget.v1.js"&gt;&lt;/script&gt;
+        </pre>
+    </p>
+    <p>
+        You will also need to define a unique page id for each page. The page id should be a standard GUID and should be declared as a variable named aaa_feedback_pageId. Here is an example:
+        <pre>
+
+    &lt;script&gt;
+        function uuidv4() {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            )
+        }
+        const aaa_feedback_pageId = uuidv4();
+    &lt;/script&gt;
+        </pre> 
+    </p>
+    <div>
+        <button onclick="clearCookies()" style="margin-right:10px;">Clear cookies</button>
+        <button onclick="window.location.reload()">Refresh</button>
+    </div>
+    <hr/>
+
+</body>
+</html>
