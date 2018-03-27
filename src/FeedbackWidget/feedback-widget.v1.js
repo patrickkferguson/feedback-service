@@ -24,8 +24,6 @@ function getDeviceId() {
         console.log(`New device id: ${aaa_feedback_state.deviceId}`);
         document.cookie = `${deviceIdCookieKey}=${aaa_feedback_state.deviceId}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
     }
-
-    console.log(`Cookie: '${document.cookie}`);
 }
 
 function submitScore() {
@@ -47,12 +45,10 @@ function submitScore() {
         pageId: aaa_feedback_pageId,
         score: aaa_feedback_state.selectedScore
     };
-    
-    console.log(addRatingRequest);
 
     const request = new XMLHttpRequest();
     request.onload = scoreSubmitted;
-    request.open('POST', 'http://localhost:54219/ratings');
+    request.open('POST', 'http://aaafeedbackapi-327157230.ap-southeast-2.elb.amazonaws.com/ratings');
     request.setRequestHeader('Content-type', 'application/json');
     request.send(JSON.stringify(addRatingRequest));
 }
@@ -68,12 +64,10 @@ function submitComment() {
     var addCommentRequest = {
         comment: comment.value
     };
-    
-    console.log(addCommentRequest);
 
     const request = new XMLHttpRequest();
     request.onload = commentSubmitted;
-    request.open('POST', `http://localhost:54219/ratings/${aaa_feedback_state.ratingId}/comments`);
+    request.open('POST', `http://aaafeedbackapi-327157230.ap-southeast-2.elb.amazonaws.com/ratings/${aaa_feedback_state.ratingId}/comments`);
     request.setRequestHeader('Content-type', 'application/json');
     request.send(JSON.stringify(addCommentRequest));
 }
@@ -87,15 +81,16 @@ function scoreSubmitted() {
         renderCommentForm();
     } else {
       console.log(this.responseText);
+      hideWidget();
     }
 }
 
 function commentSubmitted() {
-    if(this.status === 200 &&
-      this.responseText !== null) {
+    if(this.status === 200) {
         renderThankYou();
     } else {
       console.log(this.responseText);
+      hideWidget();
     }
 }
 
@@ -120,7 +115,6 @@ function showFeedbackForm() {
 
 function setCookie() {
     const now = new Date();
-    console.log(now);
     document.cookie = `aaa-feedback-timestamp=${now}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 }
 
